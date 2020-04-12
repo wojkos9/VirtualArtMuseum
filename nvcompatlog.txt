@@ -1,0 +1,3 @@
+Trying to draw without a vertex array object bound is only valid in the compatibility profile.
+  Immediate-mode is only valid in the compatibility profile.
+Internal function (unexpected API error introduced prior to API call)
