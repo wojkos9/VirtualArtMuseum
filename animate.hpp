@@ -46,10 +46,7 @@ void animate(map<int, Bone> &bones, Model &context, float t, vector<mat4> &mbs) 
         int id = (int)(t1 / dt) % nf;
         int id1 = std::min(nf, id+1);
 
-        id = 0;
-        id = 1;
-
-        float alpha = 1;//(t1-in_vals[id])/dt;
+        float alpha = (t1-in_vals[id])/dt;
 
         switch (channels[i].target_path[0]) {
             case 't': {

@@ -18,15 +18,21 @@ struct Bone {
     Bone() : children() {}
 };
 
+struct material {
+    GLuint tex_id;
+};
+struct vao {
+    GLuint index;
+    GLuint eb_id;
+    size_t count;
+    int material;
+};
+
 struct M {
-    GLuint vao;
-    int count;
+    vector<vao> vaos;
     map<int, Bone> *bones;
-    int bone_node;
-    M(GLuint vao,
-    int count,
-    map<int, Bone> *bones,
-    int bone_node) : vao(vao), count(count), bones(bones), bone_node(bone_node){}
+    vector<material> materials;
+    M(vector<vao> vaos, map<int, Bone> *bones, vector<material> materials) : vaos(vaos), bones(bones), materials(materials){}
 };
 
 void printm(mat4 m) {
@@ -61,19 +67,22 @@ GLuint make_shader(const char *fname, GLuint type) {
     return sh;
 }
 
-void decompose(mat4 &m1){//, vec3 &t, vec3 &r, vec3 &s) {
-    vec3 sc;
-    mat4 t = translate(mat4(1), vec3(1.1842f, -5.9616, -206.46f));
-    mat4 r = mat4_cast(quat(0.728f, -0.685f, -0.006f, -0.005f));
-    mat4 s = scale(mat4(1), vec3(100.f, 100.f, 100.f));
+GLuint make_program(const char *vertex_fname, const char *fragment_fname) {
+    GLuint vs = make_shader(vertex_fname, GL_VERTEX_SHADER);
+    GLuint fs = make_shader(fragment_fname, GL_FRAGMENT_SHADER);
 
+    GLuint sp = glCreateProgram();
+    glAttachShader(sp, vs);
+    glAttachShader(sp, fs);
+    glLinkProgram(sp);
 
-    mat4 m = inverse(m1);
-    printf("-----------------\n");
-    printm(m);
-    printm(t * r * s);
-    for (int i = 0; i < 3; i++) {
-        sc[i] = sqrt(m[i][0]*m[i][0]+m[i][1]*m[i][1]+m[i][2]*m[i][2]+m[i][3]*m[i][3]);
-        printf("S.%d: %f\n", sc[i]);
+    GLint ls=1;
+    glGetProgramiv(sp, GL_LINK_STATUS, &ls);
+    printf("Program status:%d\n", ls);
+    if (ls == 0) {
+        char buf[256];
+        glGetProgramInfoLog(sp, 256, NULL, buf);
+        printf("%s\n", buf);
     }
+    return sp;
 }

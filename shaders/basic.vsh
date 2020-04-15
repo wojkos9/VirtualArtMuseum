@@ -2,6 +2,7 @@
 layout (location=0) in vec3 a_pos;
 layout (location=1) in uvec4 a_joi;
 layout (location=2) in vec4 a_wei;
+layout (location=3) in vec2 a_uv;
 
 uniform mat4 mvp;
 layout(std140,binding=3) buffer Bones {
@@ -12,9 +13,11 @@ uniform vec3 u_col;
 //uniform float a;
 
 out vec3 col;
+out vec2 uv;
 
 void main(){
     col = u_col;
+    uv = a_uv;
     if (use_bones==1) {
         mat4 jm = bones[a_joi.x]*a_wei.x + bones[a_joi.y]*a_wei.y + bones[a_joi.z]*a_wei.z + bones[a_joi.w]*a_wei.w;
         float sum = a_wei.x + a_wei.y + a_wei.z + a_wei.w;
