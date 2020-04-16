@@ -9,6 +9,19 @@
 using namespace std;
 using namespace glm;
 
+
+#ifdef __linux__
+#include <unistd.h>
+int sleep(int msec) {
+    usleep(1000 * msec);
+}
+#elif _WIN32
+#include <windows.h>
+int sleep(int msec) {
+    Sleep(std::max(msec, 0));
+}
+#endif
+
 struct Bone {
     mat4 *ob;
     mat4 ms;

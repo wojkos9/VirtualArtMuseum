@@ -1,4 +1,5 @@
 {
+    "C_Cpp.default.includePath": ["windows/include"],
     "files.associations": {
         "array": "cpp",
         "atomic": "cpp",

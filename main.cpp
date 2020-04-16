@@ -80,7 +80,6 @@ int main(int argc, char *argv[]) {
     update_projection();
     
     glClearColor(0.6f, 0.5f, 8, 1);
-    float fps_limit = 60.f;
     
     Model context;
     
@@ -198,7 +197,8 @@ int main(int argc, char *argv[]) {
         double now = glfwGetTime();
         double dt = (now - last);
         last = now;
-        this_thread::sleep_for(chrono::milliseconds((int)(1000.f/fps_limit-dt*1000.f)));
+        //this_thread::sleep_for(chrono::milliseconds((int)(1000.f/fps_limit-dt*1000.f)));
+        sleep( (int)(1000 * (1.f / fps_limit - dt)) );
 
         position += (float)(dt * speed) * vel;
         t += 1.f/fps_limit;

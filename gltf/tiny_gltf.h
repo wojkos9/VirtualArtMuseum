@@ -59,6 +59,11 @@
 #include <map>
 #include <string>
 #include <vector>
+#include <cstdio>
+
+#ifdef _WIN32
+#include "win_fix.h"
+#endif
 
 #ifndef TINYGLTF_USE_CPP14
 #include <functional>
@@ -6160,6 +6165,7 @@ bool TinyGLTF::LoadBinaryFromFile(Model *model, std::string *err,
                                   const std::string &filename,
                                   unsigned int check_sections) {
   std::stringstream ss;
+  fprintf(stderr, "READ\n");
 
   if (fs.ReadWholeFile == nullptr) {
     // Programmer error, assert() ?
@@ -6175,6 +6181,7 @@ bool TinyGLTF::LoadBinaryFromFile(Model *model, std::string *err,
   std::string fileerr;
   bool fileread = fs.ReadWholeFile(&data, &fileerr, filename, fs.user_data);
   if (!fileread) {
+    
     ss << "Failed to read file: " << filename << ": " << fileerr << std::endl;
     if (err) {
       (*err) = ss.str();
