@@ -1,6 +1,6 @@
 # Opengl Game
-Compile:
+Compile: \
 make
 
-Run:
+Run: \
 ./main [optional path to model]
