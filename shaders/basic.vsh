@@ -10,7 +10,6 @@ layout(std140,binding=3) buffer Bones {
 };
 uniform int use_bones;
 uniform vec3 u_col;
-//uniform float a;
 
 out vec3 col;
 out vec2 uv;

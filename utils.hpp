@@ -86,3 +86,43 @@ GLuint make_program(const char *vertex_fname, const char *fragment_fname) {
     }
     return sp;
 }
+
+GLuint texture_quad() {
+    float xy[4] = {0.45f, 0.25f, 0.65f, 0.45f};
+    GLfloat qdata[] = {
+        0, 0, 0, xy[0], xy[1],
+        0, 1, 0, xy[0], xy[3],
+        1, 0, 0, xy[2], xy[1],
+        1, 1, 0, xy[2], xy[3]
+    };
+    GLushort qix[] = {0, 2, 3, 0, 3, 1};
+
+    GLuint quad;
+    glGenVertexArrays(1, &quad);
+    glBindVertexArray(quad);
+    GLuint qbuf[2];
+    glGenBuffers(2, &qbuf[0]);
+    glBindBuffer(GL_ARRAY_BUFFER, qbuf[0]);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(qdata), qdata, GL_STATIC_DRAW);
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 5*sizeof(GLfloat), 0);
+    glVertexAttribPointer(3, 2, GL_FLOAT, GL_FALSE, 5*sizeof(GLfloat), (void*)(3*sizeof(GLfloat)));
+
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, qbuf[1]);
+    glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(qix), qix, GL_STATIC_DRAW);
+    return quad;
+}
+
+GLuint gen_dot() {
+    GLuint vao;
+    glGenVertexArrays(1, &vao);
+    glBindVertexArray(vao);
+    GLuint vbo;
+    glGenBuffers(1, &vbo);
+    glBindBuffer(GL_ARRAY_BUFFER, vbo);
+    float v[] = {0, 0, 0};
+    glBufferData(GL_ARRAY_BUFFER, sizeof(v), v, GL_STATIC_DRAW);
+    glBindBuffer(GL_ARRAY_BUFFER, 0);
+    glBindVertexArray(0);
+    return vao;
+}
+static GLuint vao_dot;

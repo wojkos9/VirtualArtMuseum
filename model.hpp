@@ -17,7 +17,7 @@ using namespace tinygltf;
 
 
 Bone* build_bone(Model &model, map<int, Bone>& bones, int node, bool set_children = true) {
-    //cout << "BONE " << node << endl;
+
     Bone *bone = &bones[node];
     auto &rot = model.nodes[node].rotation;
     auto &trans = model.nodes[node].translation;
@@ -64,8 +64,7 @@ M loadModel(const char *path, Model &model) {
     std::string warn;
 
     //bool ret = loader.LoadASCIIFromFile(&model, &err, &warn, path);
-    bool ret = loader.LoadBinaryFromFile(&model, &err, &warn, path); // for binary glTF(.glb)
-    //return {1, 2};
+    bool ret = loader.LoadBinaryFromFile(&model, &err, &warn, path);
 
     if (!warn.empty()) {
     printf("Warn: %s\n", warn.c_str());
@@ -148,11 +147,6 @@ M loadModel(const char *path, Model &model) {
 
     int main_node = model.scenes[0].nodes[0];
     int bone_node = model.skins[0].joints[0];
-    // for (int node : model.nodes[main_node].children) {
-    //     if (model.nodes[node].mesh == -1) {
-    //         bone_node = node;
-    //     }
-    // }
 
     map<int, Bone> *bones = create_bones(model, bone_node);
 

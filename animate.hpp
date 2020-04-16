@@ -26,10 +26,6 @@ void animate(map<int, Bone> &bones, Model &context, float t, vector<mat4> &mbs) 
     }
     vector<AnimationChannel> &channels = context.animations[a].channels;
     vector<unsigned char> &buf = context.buffers[0].data;
-
-    // for (auto &b : bones) {
-    //     b.second.mn = mat4(1);
-    // }
     
     for (int i = 0; i < channels.size(); i++) {
         int node = channels[i].target_node;
