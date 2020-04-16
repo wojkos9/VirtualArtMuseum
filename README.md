@@ -5,4 +5,4 @@ make
 Run: \
 ./main [optional path to model]
 
-![Screenshot](/img.png?raw=true "Screenshot" =320x320)
+<img src="img.png" style="width:320px;"/>
