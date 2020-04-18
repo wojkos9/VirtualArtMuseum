@@ -29,6 +29,7 @@ using namespace glm;
 
 #include "callbacks.hpp"
 
+
 void update_projection() {
     p = perspective(radians(70.f), (float)win_w/win_h, 0.1f, 500.f);
 }

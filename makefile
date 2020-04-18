@@ -1,6 +1,6 @@
 
 
-files=main.cpp shaderprintf.h model.hpp utils.hpp animate.hpp shader.hpp impl.o
+files=main.cpp shaderprintf.h model.hpp utils.hpp animate.hpp shader.hpp impl.o utils.hpp
 
 ifeq ($(OS), Windows_NT)
 

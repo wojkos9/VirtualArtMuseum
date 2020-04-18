@@ -13,7 +13,7 @@ using namespace glm;
 #ifdef __linux__
 #include <unistd.h>
 int sleep(int msec) {
-    usleep(1000 * msec);
+    usleep(std::max(1000 * msec, 0));
 }
 #elif _WIN32
 #include <windows.h>

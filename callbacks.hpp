@@ -12,16 +12,16 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
         key_struct(int code, vec3 action) : code(code), action(action) {}
     };
     static key_struct keys[] = {
-    {glfwGetKeyScancode(GLFW_KEY_W), vec3(0, 0, -1)}, 
-    {glfwGetKeyScancode(GLFW_KEY_A), vec3(-1, 0, 0)}, 
-    {glfwGetKeyScancode(GLFW_KEY_S), vec3(0, 0, 1)}, 
-    {glfwGetKeyScancode(GLFW_KEY_D), vec3(1, 0, 0)},
-    {glfwGetKeyScancode(GLFW_KEY_SPACE), vec3(0, 1, 0)},
+    {GLFW_KEY_W, vec3(0, 0, -1)}, 
+    {GLFW_KEY_A, vec3(-1, 0, 0)}, 
+    {GLFW_KEY_S, vec3(0, 0, 1)}, 
+    {GLFW_KEY_D, vec3(1, 0, 0)},
+    {GLFW_KEY_U, vec3(0, 1, 0)},
     {0x32, vec3(0, -1, 0)},
     };
     vec3 vel_tmp(0);
     for (key_struct &k : keys) {
-        if (scancode == k.code) {
+        if (key == k.code) {
             k.pressed = (action != GLFW_RELEASE);
             
         }
