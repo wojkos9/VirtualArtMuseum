@@ -100,12 +100,12 @@ int main(int argc, char *argv[]) {
     
 
     // GPU buffer for bone matrices
-    GLuint ssbo;
-    glGenBuffers(1, &ssbo);
-    glBindBuffer(GL_SHADER_STORAGE_BUFFER, ssbo);
-    glBufferData(GL_SHADER_STORAGE_BUFFER, n_bones * sizeof(mat4), NULL, GL_STREAM_DRAW);
-    glBindBufferBase(GL_SHADER_STORAGE_BUFFER, 3, ssbo);
-    glBindBuffer(GL_SHADER_STORAGE_BUFFER, 0);
+    // GLuint ssbo;
+    // glGenBuffers(1, &ssbo);
+    // glBindBuffer(GL_SHADER_STORAGE_BUFFER, ssbo);
+    // glBufferData(GL_SHADER_STORAGE_BUFFER, n_bones * sizeof(mat4), NULL, GL_STREAM_DRAW);
+    // glBindBufferBase(GL_SHADER_STORAGE_BUFFER, 3, ssbo);
+    // glBindBuffer(GL_SHADER_STORAGE_BUFFER, 0);
 
     // DEBUG: for visualizing bones
     GLuint vao_bones;
