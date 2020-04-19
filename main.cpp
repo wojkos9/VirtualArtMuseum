@@ -36,8 +36,8 @@ void update_projection() {
 
 GLFWwindow* create_window(int width, int height) {
     GLFWwindow* win;
-    glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
-    glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 6);
+    glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
+    glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
     win = glfwCreateWindow(width, height, "My Window", NULL, NULL);
 
     glfwSetKeyCallback(win, key_callback);
@@ -75,7 +75,7 @@ int main(int argc, char *argv[]) {
         printf("GLEW fail\n");
     }
 
-    Shader sp("shaders/shaded.vsh", "shaders/shaded.fsh");
+    Shader sp("shaders/shaded_compat.vsh", "shaders/shaded_compat.fsh");
 
     // Initialize the projection matrix
     update_projection();
@@ -166,8 +166,9 @@ int main(int argc, char *argv[]) {
         glUniform3f(sp.loc("light_pos"), lp.x, lp.y, lp.z);
 
         // Pass bone matrices
-        glBindBuffer(GL_SHADER_STORAGE_BUFFER, ssbo);
-        glBufferSubData(GL_SHADER_STORAGE_BUFFER, 0, sizeof(mat4)*mbs.size(), &mbs[0][0][0]);
+        // glBindBuffer(GL_SHADER_STORAGE_BUFFER, ssbo);
+        // glBufferSubData(GL_SHADER_STORAGE_BUFFER, 0, sizeof(mat4)*mbs.size(), &mbs[0][0][0]);
+        glUniformMatrix4fv(sp.loc("bones"), mbs.size(), GL_FALSE, &mbs[0][0][0]);
 
         // Draw model with default flags
         glUniform1i(sp.loc("flags"), 0);

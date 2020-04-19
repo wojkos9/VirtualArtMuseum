@@ -72,6 +72,7 @@ GLuint make_shader(const char *fname, GLuint type) {
     glCompileShader(sh);
     GLint cs=1;
     glGetShaderiv(sh, GL_COMPILE_STATUS, &cs);
+    printf("%s status: %d\n", fname, cs);
     if (cs == 0) {
         char buf[256];
         glGetShaderInfoLog(sh, 256, NULL, buf);

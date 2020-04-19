@@ -25,7 +25,6 @@ public:
             printf("Uniform not found: %s\n", name);
             u_missing.emplace(name);
         }
-        
         return l;
     }
     void use() {
