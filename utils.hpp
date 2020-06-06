@@ -39,13 +39,7 @@ struct vao {
     GLuint eb_id;
     size_t count;
     int material;
-};
-
-struct M {
-    vector<vao> vaos;
-    map<int, Bone> *bones;
-    vector<material> materials;
-    M(vector<vao> vaos, map<int, Bone> *bones, vector<material> materials) : vaos(vaos), bones(bones), materials(materials){}
+    string name;
 };
 
 void printm(mat4 m) {
@@ -138,4 +132,31 @@ GLuint gen_dot() {
     glBindVertexArray(0);
     return vao;
 }
-static GLuint vao_dot;
+
+#include "stb_image.h"
+
+unsigned int loadTexture( char const *path){
+    unsigned int texture;
+    glGenTextures(1, &texture);
+    glBindTexture(GL_TEXTURE_2D, texture); 
+
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_MIRRORED_REPEAT);	
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_MIRRORED_REPEAT);
+
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+
+    int textureWidth, textureHeight, textureNrChannels;
+    unsigned char *data = stbi_load(path, &textureWidth, &textureHeight, &textureNrChannels, 0);
+    if (data)
+    {
+        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, textureWidth, textureHeight, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
+        glGenerateMipmap(GL_TEXTURE_2D);
+    }
+    else
+    {
+        std::cout << "Failed to load texture" << std::endl;
+    }
+    stbi_image_free(data);
+    return texture;
+}

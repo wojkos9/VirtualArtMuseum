@@ -3,6 +3,8 @@
 #include <glm/glm.hpp>
 using namespace glm;
 
+#include "player.hpp"
+
 static int win_w = 640, win_h = 480;
 static bool cursor_free = true;
 
@@ -15,6 +17,4 @@ float cam_angle_x = 0.f, cam_angle_y = 0.f;
 
 float fps_limit = 60.f;
 
-mat4 mvp, m, v, p;
-
-void update_projection();
+Player player;

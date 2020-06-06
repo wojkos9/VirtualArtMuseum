@@ -34,17 +34,16 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
         vel_tmp *= 0.1;
     }
 
-    vel = -vel_tmp.z * dir + vel_tmp.x * cross(dir, vec3(0, 1, 0)) + vec3(0, vel_tmp.y, 0);
+    player.set_moving_dir(vel_tmp);
 }
 
 void mouse_callback(GLFWwindow *win, double xpos, double ypos) {
     if (cursor_free)
         return;
     float sc = 0.001;
-    cam_angle_x += sc*(xpos-win_w/2);
-    cam_angle_y -= sc*(ypos-win_h/2);
+    vec2 dr(xpos-win_w/2, -(ypos-win_h/2));
+    player.rotate(sc * dr);
     glfwSetCursorPos(win, win_w/2, win_h/2);
-    dir = vec3(sin(cam_angle_x)*cos(cam_angle_y), sin(cam_angle_y), -cos(cam_angle_x)*cos(cam_angle_y));
 }
 
 void mouse_button_callback(GLFWwindow* window, int button, int action, int mods) {
@@ -59,5 +58,5 @@ void window_size_callback(GLFWwindow* window, int width, int height)
     win_w = width;
     win_h = height;
     glViewport(0, 0, width, height);
-    update_projection();
+    //update_projection();
 }
