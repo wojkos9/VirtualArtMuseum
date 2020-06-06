@@ -14,6 +14,9 @@ class Human {
     }
 
     void draw(Renderer &r) {
-        r.ren
+        r.i();
+        r.tr(position);
+        
+        r.renderModel(model);
     }
-}
+};

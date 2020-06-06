@@ -120,7 +120,7 @@ class Museum {
             r.ro(180, Z);
             r.ro(90, X);
             r.ro(90, Z);
-            r.sc(vec3(0.6f, 0.6f, 0.6f));
+            r.sc(0.6f);
             r.renderTriangles(6);
         }
 

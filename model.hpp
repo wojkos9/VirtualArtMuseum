@@ -65,10 +65,14 @@ class AnimatedModel {
     Model ctx;
     float t = 0;
     vector<mat4> mbs;
+    float scale = 1.0f;
     friend class Renderer;
     public:
     AnimatedModel() {
 
+    }
+    void set_scale(float sc) {
+        scale = sc;
     }
     void load(const char *path) {
         TinyGLTF loader;

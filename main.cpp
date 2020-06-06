@@ -31,6 +31,7 @@ using namespace glm;
 
 #include "renderer.hpp"
 #include "museum.hpp"
+#include "human.hpp"
 
 GLFWwindow* create_window(int width, int height) {
     GLFWwindow* win;
@@ -83,10 +84,12 @@ int main(int argc, char *argv[]) {
 
     AnimatedModel amodel;
     amodel.load(model_fname);
+    amodel.set_scale(0.4f);
 
     Renderer r(player);
     Museum museum;
     
+    Human npc(amodel);
 
     // // DEBUG: for visualizing bones
     // GLuint vao_bones;
@@ -130,8 +133,8 @@ int main(int argc, char *argv[]) {
         museum.draw(r);
 
         r.use_shader(Character);
-
-        r.sc(0.5f);
+        r.i();
+        r.tr(vec3(0, -0.5f, 0));
         r.renderModel(amodel);
 
 

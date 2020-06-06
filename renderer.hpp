@@ -109,7 +109,7 @@ class Renderer {
     
 
     void renderModel(AnimatedModel &model, unsigned int flags=0) {
-
+        sc(model.scale);
         if (dirty())
             passMatrices();
 

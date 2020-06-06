@@ -14,6 +14,7 @@ class MCamera {
     public:
     MCamera(float fov=70.f) {
         p = perspective(radians(fov), (float)640/480, 0.1f, 500.f);
+        rotate(vec2(0));
         v = lookAt(vec3(0, 0, 0), dir, vec3(0, 1, 0));
     }
 

@@ -1,6 +1,6 @@
 
 
-files=main.cpp shaderprintf.h model.hpp utils.hpp animate.hpp shader.hpp impl.o callbacks.hpp renderer.hpp museumWallsCoordinates.hpp museum.hpp
+files=main.cpp shaderprintf.h model.hpp utils.hpp animate.hpp shader.hpp impl.o callbacks.hpp renderer.hpp museumWallsCoordinates.hpp museum.hpp camera.hpp
 
 ifeq ($(OS), Windows_NT)
 
