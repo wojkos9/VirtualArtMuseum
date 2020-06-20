@@ -17,7 +17,9 @@
 using namespace tinygltf;
 
 Bone* build_bone(Model &model, map<int, Bone>& bones, int node, bool set_children = true) {
-
+    if (bones.find(node) == bones.end()) {
+        bones[node] = Bone(node);
+    }
     Bone *bone = &bones[node];
     auto &rot = model.nodes[node].rotation;
     auto &trans = model.nodes[node].translation;
@@ -47,7 +49,7 @@ map<int, Bone>* create_bones(Model &model, int bone_node) {
     map<int, Bone> *bones = new map<int, Bone>();
     int i = 0;
     for (int joint : joints) {
-        (*bones)[joint] = Bone();
+        (*bones)[joint] = Bone(joint);
         (*bones)[joint].ob = (mat4*)&model.buffers[0].data[bv.byteOffset+i*sizeof(mat4)];
         i++;
     }
@@ -67,6 +69,7 @@ class AnimatedModel {
     vector<mat4> mbs;
     float scale = 1.0f;
     friend class Renderer;
+    friend class ModelInstance;
     public:
     AnimatedModel() {
 
@@ -165,32 +168,11 @@ class AnimatedModel {
         int bone_node = ctx.skins[0].joints[0];
 
         bones = create_bones(ctx, bone_node);
-        prepareBones();
-    }
 
-    void prepareBones() {
-        // Move bones to default position
         for (pair<const int, Bone> &b : *bones) {
             b.second.mn = b.second.ms ;
         }
-
-        // CPU buffer for bone matrices
-        int n_bones = bones->size();
-        mbs = vector<mat4>(n_bones, mat4());
     }
-
-    void update(float dt) {
-        t += dt;
-
-        // Animate bones
-        animate(*bones, ctx, t, mbs);
-
-        // Compute bone matrices
-        int i = 0;
-        for(int j : ctx.skins[0].joints) {
-            mbs[i] = compute_mn(&(*bones)[j]) * *(*bones)[j].ob;
-            i++;
-        }
-    }
+    
     
 };

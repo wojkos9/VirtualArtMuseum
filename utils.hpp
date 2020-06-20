@@ -5,6 +5,7 @@
 #include <fstream>
 #include <sstream>
 #include <vector>
+#include <map>
 
 using namespace std;
 using namespace glm;
@@ -23,13 +24,28 @@ int sleep(int msec) {
 #endif
 
 struct Bone {
+    int id;
     mat4 *ob;
     mat4 ms;
     mat4 mn;
-    Bone *parent = nullptr;
+    Bone *parent;
     vector<Bone*> children;
-    Bone() : children() {}
+    Bone(int id) : id(id), children(), parent(nullptr) {}
+    Bone() : parent(nullptr) {}
 };
+
+map<int, Bone>* copyBones(map<int, Bone>* bones) {
+    map<int, Bone>* bones2 = new map<int, Bone>(*bones);
+    for (pair<const int, Bone> &p : *bones) {
+        Bone &b = p.second;
+        Bone &b1 =  (*bones2)[b.id];
+        b1.parent = b.parent!=nullptr ? &(*bones2)[b.parent->id] : nullptr;
+        for (Bone* &c : b1.children) {
+            c = &(*bones2)[c->id];
+        }
+    }
+    return bones2;
+}
 
 struct material {
     GLuint tex_id;

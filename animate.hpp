@@ -14,7 +14,7 @@ struct quaternion {
     float x, y, z, w;
 };
 
-void animate(map<int, Bone> &bones, Model &context, float t, vector<mat4> &mbs) {
+void animate(map<int, Bone> &bones, Model &context, float t) {
     int a = 0;
     if (context.animations.size()==0) {
         static bool informed = false;

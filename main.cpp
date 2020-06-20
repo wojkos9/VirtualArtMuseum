@@ -33,6 +33,8 @@ using namespace glm;
 #include "museum.hpp"
 #include "human.hpp"
 
+#include "model_instance.hpp"
+
 GLFWwindow* create_window(int width, int height) {
     GLFWwindow* win;
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
@@ -91,6 +93,8 @@ int main(int argc, char *argv[]) {
     
     Human npc(amodel);
 
+    ModelInstance mi(amodel), mi2(amodel);
+
     // // DEBUG: for visualizing bones
     // GLuint vao_bones;
     // glGenVertexArrays(1, &vao_bones);
@@ -127,7 +131,8 @@ int main(int argc, char *argv[]) {
         #define SHOW_LIGHT
         //rend.draw_debug(sp, model, vbo_bones, vao_bones, lp);
         player.update(dt);
-        amodel.update(dt);
+        mi.update(dt);
+        mi2.update(1.3f*dt);
 
       
         r.use_shader(Static);
@@ -141,7 +146,9 @@ int main(int argc, char *argv[]) {
         r.use_shader(Character);
         r.i();
         r.tr(vec3(0, -0.5f, 0));
-        r.renderModel(amodel);
+        mi.draw(r);
+        r.tr(vec3(1, 0, 0));
+        mi2.draw(r);
 
 
         glfwSwapBuffers(win);

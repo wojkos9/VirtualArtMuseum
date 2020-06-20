@@ -122,16 +122,17 @@ class Renderer {
         return m_dirty || camera.m_dirty;
     }
 
-    
+    void passBoneMatrices(vector<mat4> &mbs) {
+        // Pass bone matrices
+        glBindBuffer(GL_SHADER_STORAGE_BUFFER, ssbo);
+        glBufferSubData(GL_SHADER_STORAGE_BUFFER, 0, sizeof(mat4)*mbs.size(), &mbs[0][0][0]);
+    }
 
     void renderModel(AnimatedModel &model, unsigned int flags=0) {
         sc(model.scale);
         if (dirty())
             passMatrices();
-
-         // Pass bone matrices
-        glBindBuffer(GL_SHADER_STORAGE_BUFFER, ssbo);
-        glBufferSubData(GL_SHADER_STORAGE_BUFFER, 0, sizeof(mat4)*model.mbs.size(), &model.mbs[0][0][0]);
+         
 
         // Draw model with default flags
         glUniform1i(current_shader->loc("flags"), flags);
@@ -150,6 +151,7 @@ class Renderer {
             
             glDrawElements(GL_TRIANGLES, vao.count, GL_UNSIGNED_SHORT, (void*)0);
         }
+        sc(1/model.scale);
     }
 
 

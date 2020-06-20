@@ -5,7 +5,7 @@ using namespace glm;
 
 #include "player.hpp"
 
-static int win_w = 640, win_h = 480;
+static int win_w = 854, win_h = 480;
 static bool cursor_free = true;
 
 // Camera:

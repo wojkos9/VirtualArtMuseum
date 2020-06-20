@@ -9,14 +9,14 @@ class Human {
     Human(AnimatedModel &model) : model(model) {
         
     }
-    void update(float dt) {
-        model.update(dt);
-    }
+    // void update(float dt) {
+    //    // model.update(dt);
+    // }
 
-    void draw(Renderer &r) {
-        r.i();
-        r.tr(position);
+    // void draw(Renderer &r) {
+    //     r.i();
+    //     r.tr(position);
         
-        r.renderModel(model);
-    }
+    //     r.renderModel(model);
+    // }
 };
