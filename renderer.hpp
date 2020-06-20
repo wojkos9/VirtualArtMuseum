@@ -4,7 +4,7 @@
 #include "camera.hpp"
 
 enum ShaderType {
-    Character = 0, Static = 1
+    Character = 0, Static = 1, Lights = 2
 };
 
 enum Axis {
@@ -16,6 +16,7 @@ enum Axis {
 class Renderer {
     
     mat4 mvp, m;
+
     GLuint ssbo;
     vector<Shader> shaders;
 
@@ -36,7 +37,7 @@ class Renderer {
 
         add_shader(Character, "shaders/shaded.vsh", "shaders/shaded.fsh");
         add_shader(Static, "shaders/vertexShaderMuseum.vs", "shaders/fragmentShaderMuseum.fs");
-
+        add_shader(Lights, "shaders/lightCubeShader.vs", "shaders/lightCubeShader.fs");
         // GPU buffer for bone matrices
 
         int n_bones = 128;
@@ -68,11 +69,20 @@ class Renderer {
         glUniformMatrix4fv(current_shader->loc("mvp"), 1, GL_FALSE, &mvp[0][0]);
         glUniformMatrix4fv(current_shader->loc("m"), 1, GL_FALSE, &m[0][0]);
         glUniformMatrix4fv(current_shader->loc("v"), 1, GL_FALSE, &v[0][0]);
+        //glUniform3f (current_shader->loc("lightPos"),  2.5f,  0.99f,  0.0f);
 
         m_dirty = false;
     }
 
+    void setLightPositions(vec3 lp[4]){
+        glUniform3f (current_shader->loc("lightPos[0]"),  lp[0].x, lp[0].y, lp[0].z);
+        glUniform3f (current_shader->loc("lightPos[1]"),  lp[1].x, lp[1].y, lp[1].z);
 
+        glUniform3f (current_shader->loc("lightPos[2]"),  lp[2].x, lp[2].y, lp[2].z);
+
+        glUniform3f (current_shader->loc("lightPos[3]"),  lp[3].x, lp[3].y, lp[3].z);
+
+    }
     void i() {
         m = mat4(1);
         m_dirty = true;
@@ -96,11 +106,17 @@ class Renderer {
 
     void updateLight(float dt) {
         t += dt;
+      
         // DEBUG: Update light point's position
         float light_angle = t;
         vec3 lp = vec3(cos(light_angle), 1.7f, sin(light_angle));
 
         glUniform3f(current_shader->loc("light_pos"), lp.x, lp.y, lp.z);
+    }
+
+    void setCameraPosition(){
+         glUniform3fv(current_shader->loc("viewPos"),1, &camera.position[0]);
+
     }
     bool dirty() {
         return m_dirty || camera.m_dirty;

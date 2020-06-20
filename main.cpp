@@ -129,8 +129,14 @@ int main(int argc, char *argv[]) {
         player.update(dt);
         amodel.update(dt);
 
+      
         r.use_shader(Static);
         museum.draw(r);
+   
+
+        r.use_shader(Lights);
+        museum.drawLight(r);
+        
 
         r.use_shader(Character);
         r.i();
