@@ -14,19 +14,21 @@ struct quaternion {
     float x, y, z, w;
 };
 
-void animate(map<int, Bone> &bones, Model &context, float t) {
-    int a = 0;
+bool animate(map<int, Bone> &bones, Model &context, float t, int a=0, int excludenode=-1) {
     if (context.animations.size()==0) {
         static bool informed = false;
         if (!informed) {
             printf("ERROR: No animations\n");
             informed = true;
         }
-        return;
+        return false;
     }
     vector<AnimationChannel> &channels = context.animations[a].channels;
     vector<unsigned char> &buf = context.buffers[0].data;
     
+    int id, id1;
+    bool looped = false;
+
     for (int i = 0; i < channels.size(); i++) {
         int node = channels[i].target_node;
         AnimationSampler &sampler = context.animations[a].samplers[channels[i].sampler];
@@ -39,8 +41,11 @@ void animate(map<int, Bone> &bones, Model &context, float t) {
         float atime = nf * dt;
 
         float t1 = t - (int)(t / atime)*(float)atime;
-        int id = (int)(t1 / dt) % nf;
-        int id1 = std::min(nf, id+1);
+        id = (int)(t1 / dt) % nf;
+        if (!looped && t1 < dt) {
+            looped = true;
+        }
+        id1 = std::min(nf, id+1);
 
         float alpha = (t1-in_vals[id])/dt;
 
@@ -50,8 +55,11 @@ void animate(map<int, Bone> &bones, Model &context, float t) {
                 vec3 &a = out_vals[id];
                 vec3 &b = out_vals[id1];
                 vec3 c = mix(a, b, alpha);
+                if (node == excludenode) {
+                    c.y = 0;
+                }
                 //printf("t: %f %f %f\n", c.x, c.y, c.z);
-                bones[node].mn = translate(mat4(1), mix(a, b, alpha));
+                bones[node].mn = translate(mat4(1), c);
                 break;
             }
             case 'r': {
@@ -75,4 +83,5 @@ void animate(map<int, Bone> &bones, Model &context, float t) {
             }
         }
     }
+    return !looped;
 }

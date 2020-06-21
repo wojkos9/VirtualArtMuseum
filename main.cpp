@@ -81,7 +81,7 @@ int main(int argc, char *argv[]) {
     Model context;
     
     // TODO: in a different thread
-    const char *model_fname = argc < 2 ? "models/walk.glb" : argv[1];
+    const char *model_fname = argc < 2 ? "models/wss.glb" : argv[1];
     //M model = loadModel(model_fname, context);
 
     AnimatedModel amodel;
@@ -133,6 +133,11 @@ int main(int argc, char *argv[]) {
         player.update(dt);
         mi.update(dt);
         mi2.update(1.3f*dt);
+
+        if (play) {
+            mi.stop();
+            play = false;
+        }
 
       
         r.use_shader(Static);
