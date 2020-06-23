@@ -35,7 +35,7 @@ void main() {
   vec3 multiplier=vec3(0);
 
 
-  vec4 mcol = texture(tex_sampler, uv).rgba;
+  vec4 mcol = vec4(0.5, 0.5, 0.5, 1);//texture(tex_sampler, uv).rgba;
 
 
   for(int i=0;i<4;i++){

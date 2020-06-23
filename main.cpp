@@ -123,6 +123,7 @@ int main(int argc, char *argv[]) {
     
     double last = glfwGetTime();
     float dt = 1.f/fps_limit;
+    float dx = 0;
     while (!glfwWindowShouldClose(win)) {
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
@@ -152,8 +153,11 @@ int main(int argc, char *argv[]) {
         r.i();
         r.tr(vec3(0, -0.5f, 0));
         mi.draw(r);
-        r.tr(vec3(1, 0, 0));
+        r.tr(vec3(1+dx, 0, 0));
         mi2.draw(r);
+        dx = (dx+0.3*dt);
+        if (dx > 3)
+            dx = 0;
 
 
         glfwSwapBuffers(win);
