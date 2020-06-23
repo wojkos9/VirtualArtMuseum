@@ -10,6 +10,7 @@ enum AnimType {
     Start=0, Walk=1, Stop=2, Idle
 };
 
+
 class ModelInstance {
 
 public:
@@ -53,6 +54,7 @@ public:
         target_rot = rad;
         rotating = true;
     }
+    int anim_counter = 0;
 
     void update(float dt) {
 
@@ -66,7 +68,9 @@ public:
             if (!working) {
                 if (animations.size() > 0) {
                     curr_anim = animations.front();
+                    anim_counter++;
                     last_d = 0;
+                    t = 0;
                     animations.pop();
                     cout << "anim " << curr_anim << "/" << animations.size() << endl;
                 }
@@ -76,10 +80,11 @@ public:
             if (curr_anim != Idle) {
                 t += dt;
                 working = animate(*bones, ctx, t, &d_since, order[curr_anim], 64);
-                cout << d_since << endl;
+                cout << anim_counter << " : " << d_since << endl;
                 float dr = (d_since>last_d)?(d_since-last_d):d_since;
                 
                 dr = dr*0.005;
+                //cout << dr << endl;
                 //cout << dr << pos.z << endl;
                 pos += rotateY(vec3(0, 0, dr), rot);
                 if (distance(vec2(pos.x, pos.z), target) <= pow(0.5f, 2)) {

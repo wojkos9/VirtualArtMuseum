@@ -141,7 +141,7 @@ int main(int argc, char *argv[]) {
 
         player.update(dt);
         mi.update(dt);
-        mi2.update(1.3f*dt);
+        //mi2.update(1.3f*dt);
 
       
         r.use_shader(Static);
