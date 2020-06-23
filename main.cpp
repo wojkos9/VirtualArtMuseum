@@ -94,7 +94,7 @@ int main(int argc, char *argv[]) {
     Human npc(amodel);
 
     ModelInstance mi(amodel), mi2(amodel);
-    mi.goTo(vec2(2, 1));
+    mi.goTo(vec2(2, -1));
 
     // // DEBUG: for visualizing bones
     // GLuint vao_bones;

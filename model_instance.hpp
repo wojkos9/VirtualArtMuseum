@@ -35,6 +35,7 @@ public:
     bool rotating = false;
     float rot_speed = 1.f;
     bool clockwise = true;
+    bool reached = true;
 
     vec2 dir = vec2(0, 1);
     vec2 target = vec2(0);
@@ -47,6 +48,10 @@ public:
             walking = false;
         }
         
+    }
+
+    bool reachedGoal() {
+        return reached;
     }
 
     void rotateTo(float rad) {
@@ -80,7 +85,7 @@ public:
             if (curr_anim != Idle) {
                 t += dt;
                 working = animate(*bones, ctx, t, &d_since, order[curr_anim], 64);
-                cout << anim_counter << " : " << d_since << endl;
+                //cout << anim_counter << " : " << d_since << endl;
                 float dr = (d_since>last_d)?(d_since-last_d):d_since;
                 
                 dr = dr*0.005;
@@ -89,6 +94,7 @@ public:
                 pos += rotateY(vec3(0, 0, dr), rot);
                 if (distance(vec2(pos.x, pos.z), target) <= pow(0.5f, 2)) {
                     stop();
+                    reached = true;
                 }
                 last_d = d_since;
             } else {
@@ -121,10 +127,11 @@ public:
         vec2 p = vec2(pos.x, pos.z);
         target = dst;
         dir = normalize(dst-p);
-        float new_rot = acos(dot(dir, vec2(0, 1)));
+        float new_rot = acos(dot(dir, vec2(0, 1))) * sign(dir.x);
+        cout << "ROT" << new_rot << endl;
         rotateTo(new_rot);
         start();
-
+        reached = false;
     }
 
     
