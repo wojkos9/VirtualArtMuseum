@@ -131,14 +131,16 @@ int main(int argc, char *argv[]) {
         //#define SHOW_BONES
         #define SHOW_LIGHT
         //rend.draw_debug(sp, model, vbo_bones, vao_bones, lp);
+
+        if (cmd_go)
+            mi.start();
+        else if (cmd_stop)
+            mi.stop();
+
+
         player.update(dt);
         mi.update(dt);
         mi2.update(1.3f*dt);
-
-        if (play) {
-            mi.stop();
-            play = false;
-        }
 
       
         r.use_shader(Static);

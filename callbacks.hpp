@@ -5,10 +5,8 @@
 
 void key_callback(GLFWwindow* window, int key, int scancode, int action, int mods)
 {
-    if (key == GLFW_KEY_P && action == GLFW_PRESS) {
-        play = !play;
-        cout << (play?"play":"Pause") << endl;
-    }
+    cmd_go = (key == GLFW_KEY_O && action == GLFW_PRESS);
+    cmd_stop = (key == GLFW_KEY_P && action == GLFW_PRESS);
     struct key_struct {
         int code;
         vec3 action;

@@ -17,6 +17,7 @@ float cam_angle_x = 0.f, cam_angle_y = 0.f;
 
 float fps_limit = 60.f;
 
-bool play = true;
+bool cmd_go = false, cmd_stop = false;
+
 
 Player player;

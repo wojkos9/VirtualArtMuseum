@@ -1,6 +1,12 @@
 #pragma once
 #include "model.hpp"
 #include "animate.hpp"
+#include <queue>
+
+enum AnimType {
+    Start=0, Walk=1, Stop=2, Idle
+};
+
 class ModelInstance {
 
 public:
@@ -11,42 +17,52 @@ public:
     AnimatedModel &amodel;
     bool do_animation = true;
     bool working = true;
-    int aix = 0;
-    int next_aix = 0;
+    AnimType curr_anim = Idle;
     int cycles = 1;
     int order[3] = {0, 2, 1};
     vec3 pos;
     float d_since = 0.f;
     float last_d = 0.f;
-    
+    queue<AnimType> animations;
+    bool walking = false;
 
     void stop() {
-        next_aix = (aix+1)%3;
+        if (walking) {
+            animations.push(Stop);
+            animations.push(Idle);
+            cout << "stop" << endl;
+            walking = false;
+        }
+        
     }
 
     void update(float dt) {
-        t += dt;
-        // Animate bones
-        working = animate(*bones, ctx, t, &d_since, order[aix], 64);
-        float dr = (d_since>last_d)?(d_since-last_d):d_since;
-        dr = dr*0.005;
-        //cout << dr << pos.z << endl;
-        pos += vec3(0, 0, dr);
-        last_d = d_since;
-        
-        if (!working && next_aix != aix) {
-            cycles--;
-            cout << "animation " << aix << " " << "cycle " << cycles << endl;
-            if (cycles <= 0) {
-                aix = next_aix;
-                if (aix == 1)
-                    cycles = 5;
-                else
-                    cycles = 1;
-                next_aix = (aix+1)%3;
-                t = 0;
+
+        if (!working) {
+            if (animations.size() > 0) {
+                curr_anim = animations.front();
+                last_d = 0;
+                animations.pop();
+                cout << "anim " << curr_anim << "/" << animations.size() << endl;
             }
         }
+        
+        // Animate bones
+        if (curr_anim != Idle) {
+            t += dt;
+            working = animate(*bones, ctx, t, &d_since, order[curr_anim], 64);
+            float dr = (d_since>last_d)?(d_since-last_d):d_since;
+            dr = dr*0.005;
+            //cout << dr << pos.z << endl;
+            pos += vec3(0, 0, dr);
+            last_d = d_since;
+        } else {
+            working = false;
+            t = 0;
+            last_d = 0;
+        }
+        
+        
         
 
         // Compute bone matrices
@@ -55,6 +71,16 @@ public:
             mbs[i] = compute_mn(&(*bones)[j]) * *(*bones)[j].ob;
             i++;
         }
+    }
+
+    void start() {
+        if (!walking) {
+            animations.push(Start);
+            animations.push(Walk);
+            cout << "start" << endl;
+            walking = true;
+        }
+        
     }
     ModelInstance(AnimatedModel &am) : amodel(am), ctx(am.ctx) {
         bones = copyBones(am.bones);
