@@ -56,7 +56,7 @@ bool animate(map<int, Bone> &bones, Model &context, float t, float *delta, int a
                 vec3 &b = out_vals[id1];
                 vec3 c = mix(a, b, alpha);
                 if (node == excludenode) {
-                    *delta = c.y;
+                    *delta = c.y-out_vals[0].y;
                     c.y = 0;
                 }
                 //printf("t: %f %f %f\n", c.x, c.y, c.z);

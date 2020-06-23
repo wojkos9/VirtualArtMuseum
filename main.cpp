@@ -94,6 +94,7 @@ int main(int argc, char *argv[]) {
     Human npc(amodel);
 
     ModelInstance mi(amodel), mi2(amodel);
+    mi.goTo(vec2(2, 1));
 
     // // DEBUG: for visualizing bones
     // GLuint vao_bones;
@@ -153,8 +154,9 @@ int main(int argc, char *argv[]) {
 
         r.use_shader(Character);
         r.i();
-        r.ro(90.f, Y);
         r.tr(mi.pos);
+        r.ro(mi.rot/3.14f*180, Y);
+        
         mi.draw(r);
         r.i();
         r.tr(vec3(1+dx, 0, 0));
