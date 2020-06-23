@@ -157,14 +157,44 @@ class Museum {
         for(unsigned int i = 0; i < 6; i++)
         {
             r.i();
-           r.setLightPositions(lightPositions);
-
+            vec3 fixedLightPositions[4];
+            for(int i=0;i<4;i++){
+                fixedLightPositions[i].x= 5.0f + lightPositions[i].x;
+                fixedLightPositions[i].y= lightPositions[i].y;
+                fixedLightPositions[i].z=lightPositions[i].z;
+            }
+            r.setLightPositions(fixedLightPositions);
             r.tr(roomWallPositions[i]);
             r.ro(90, X);
             r.ro(90, Z);
             r.passMatrices();
             r.renderTriangles(6);
+        
+            r.i();
+            r.setLightPositions(lightPositions);
+            r.tr(roomWallPositions[i]+vec3(0.2f,0.0f,0.0f));
+            r.ro(90, X);
+            r.ro(90, Z);
+            r.passMatrices();
+            r.renderTriangles(6);
+       
+            r.i();
+            r.setLightPositions(lightPositions);
+            r.tr(roomWallPositions[i+6]);
+            if(i%2==0){
+                r.sc(vec3(0.2,1.0,0.2));
+                r.ro(90, X);
+            }else{
+
+                r.sc(vec3(0.2,1.0,0.2));
+                r.ro(90, X);
+                r.ro(180, Z);
+            }
+            r.passMatrices();
+            r.renderTriangles(6);
         }
+
+      
         for(unsigned int i = 0; i < numberOfPainters; i++){
             glBindTexture(GL_TEXTURE_2D, posters[i]);
             r.i();

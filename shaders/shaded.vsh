@@ -15,13 +15,11 @@ layout(std140,binding=3) buffer Bones {
     mat4 bones[];
 };
 uniform int use_bones;
-uniform vec3 light_pos;
 
 uniform int flags;
 
 out vec2 uv;
 out vec3 normal_cs;
-out vec3 light_dir_cs;
 out vec3 pos;
 
 void main(){
@@ -31,7 +29,6 @@ void main(){
     pos = vertex_pos.xyz;
 
     normal_cs = (v * m * jm * vec4(a_nor, 0)).xyz;
-    light_dir_cs = (v * vec4(light_pos, 1)).xyz - (v * m * vertex_pos).xyz;
 
     gl_Position = mvp * vertex_pos;
     

@@ -148,7 +148,14 @@ class Renderer {
             glEnableVertexAttribArray(4);
 
             glBindTexture(GL_TEXTURE_2D, model.materials[vao.material].tex_id);
-            
+            setCameraPosition();
+            glm::vec3 lightPositions []={
+                glm::vec3( 8.0f,  0.99f,  0.0f),
+                glm::vec3( 3.0f,  0.99f,  0.0f),
+                glm::vec3( -2.0f,  0.99f,  0.0f),
+                glm::vec3( -7.0f,  0.99f,  0.0f)};
+                
+            setLightPositions(lightPositions);
             glDrawElements(GL_TRIANGLES, vao.count, GL_UNSIGNED_SHORT, (void*)0);
         }
         sc(1/model.scale);

@@ -1,7 +1,6 @@
 #pragma once
 #include "model.hpp"
 #include "animate.hpp"
-
 class ModelInstance {
 
 public:
@@ -59,6 +58,7 @@ public:
         mbs = vector<mat4>(n_bones, mat4());
     }
     void draw(Renderer &r) {
+       
         r.passBoneMatrices(mbs);
         r.renderModel(amodel);
     }

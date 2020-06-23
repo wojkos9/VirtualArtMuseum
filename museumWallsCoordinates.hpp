@@ -132,16 +132,25 @@ glm::vec3 roomWallPositions[] = {
     glm::vec3( -5.0f,  0.0f,  1.0f), 
     glm::vec3( 5.0f,  0.0f,  -1.0f), 
     glm::vec3( 0.0f,  0.0f,  -1.0f), 
-    glm::vec3( -5.0f,  0.0f,  -1.0f)
+    glm::vec3( -5.0f,  0.0f,  -1.0f),
 
+    //corridor walls
+    glm::vec3(0.6,0.0,0.6),
+    glm::vec3(0.6,0.0,-0.6),
+
+        glm::vec3(5.6,0.0,0.6),
+    glm::vec3(5.6,0.0,-0.6),
+
+     glm::vec3(-4.4,0.0,0.6),
+    glm::vec3(-4.4,0.0,-0.6),
 };
 
 glm::vec3 lightPositions []={
   
-    glm::vec3( 7.5f,  0.99f,  0.0f),
-    glm::vec3( 2.5f,  0.99f,  0.0f),
-    glm::vec3( -2.5f,  0.99f,  0.0f),
-    glm::vec3( -7.5f,  0.99f,  0.0f)
+    glm::vec3( 8.0f,  0.99f,  0.0f),
+    glm::vec3( 3.0f,  0.99f,  0.0f),
+    glm::vec3( -2.0f,  0.99f,  0.0f),
+    glm::vec3( -7.0f,  0.99f,  0.0f)
 };
 
 glm::vec3 doorPosition=  glm::vec3( -10.49f,  0.0f,  0.0f);
