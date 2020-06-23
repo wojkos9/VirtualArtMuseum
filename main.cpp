@@ -151,13 +151,15 @@ int main(int argc, char *argv[]) {
 
         r.use_shader(Character);
         r.i();
-        r.tr(vec3(0, -0.5f, 0));
+        r.ro(90.f, Y);
+        r.tr(mi.pos);
         mi.draw(r);
+        r.i();
         r.tr(vec3(1+dx, 0, 0));
         mi2.draw(r);
         dx = (dx+0.3*dt);
-        if (dx > 3)
-            dx = 0;
+        // if (dx > 7)
+        //     dx = 0;
 
 
         glfwSwapBuffers(win);

@@ -98,7 +98,7 @@ class Museum {
           glEnableVertexAttribArray(0);
           for(unsigned int i=0;i<4;i++){
           r.i();
-          r.tr(lightPositions[i]);
+          r.tr(lightTranslate[i]);
           r.sc(vec3(0.1,1.0,0.1));
           r.passMatrices();
 
@@ -127,7 +127,7 @@ class Museum {
             vec3 fixedLightPositions[4];
             for(int i=0;i<4;i++){
                 fixedLightPositions[i].x=lightPositions[i].x;
-                fixedLightPositions[i].y= -lightPositions[i].y;
+                fixedLightPositions[i].y= -lightPositions[i].y - 1.0f;
                 fixedLightPositions[i].z=lightPositions[i].z;
             }
 

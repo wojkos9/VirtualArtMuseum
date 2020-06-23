@@ -23,11 +23,11 @@ void main()
    vec3 norm = normalize(Normal);
    vec3 viewDir = normalize(viewPos - FragPos);
    float ambientStrength = 0.1;
-   vec3 ambient = ambientStrength * lightColor;
 
    vec3 multiplier=vec3(0);
   
    for(int i=0;i<4;i++){
+      vec3 ambient = ambientStrength * lightColor;
       float distance    = length(lightPos[i] - FragPos);
       float attenuation = 1.0 / (constant + linear * distance + quadratic * (distance * distance));  
 

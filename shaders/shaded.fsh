@@ -31,7 +31,6 @@ void main() {
   vec3 norm  = normalize(normal_cs);
   vec3 viewDir = normalize(viewPos - pos);
   float ambientStrength = 0.1;
-  vec3 ambient = ambientStrength * lightColor;
   vec3 multiplier=vec3(0);
 
 
@@ -39,6 +38,8 @@ void main() {
 
 
   for(int i=0;i<4;i++){
+      vec3 ambient = ambientStrength * lightColor;
+
       float distance = length(lightPos[i] - pos);
       float attenuation = 1.0 / (constant + linear * distance + quadratic * (distance * distance));  
 

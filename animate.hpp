@@ -14,7 +14,7 @@ struct quaternion {
     float x, y, z, w;
 };
 
-bool animate(map<int, Bone> &bones, Model &context, float t, int a=0, int excludenode=-1) {
+bool animate(map<int, Bone> &bones, Model &context, float t, float *delta, int a=0, int excludenode=-1) {
     if (context.animations.size()==0) {
         static bool informed = false;
         if (!informed) {
@@ -56,6 +56,7 @@ bool animate(map<int, Bone> &bones, Model &context, float t, int a=0, int exclud
                 vec3 &b = out_vals[id1];
                 vec3 c = mix(a, b, alpha);
                 if (node == excludenode) {
+                    *delta = c.y;
                     c.y = 0;
                 }
                 //printf("t: %f %f %f\n", c.x, c.y, c.z);

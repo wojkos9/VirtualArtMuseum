@@ -15,6 +15,10 @@ public:
     int next_aix = 0;
     int cycles = 1;
     int order[3] = {0, 2, 1};
+    vec3 pos;
+    float d_since = 0.f;
+    float last_d = 0.f;
+    
 
     void stop() {
         next_aix = (aix+1)%3;
@@ -23,7 +27,12 @@ public:
     void update(float dt) {
         t += dt;
         // Animate bones
-        working = animate(*bones, ctx, t, order[aix], 64);
+        working = animate(*bones, ctx, t, &d_since, order[aix], 64);
+        float dr = (d_since>last_d)?(d_since-last_d):d_since;
+        dr = dr*0.005;
+        //cout << dr << pos.z << endl;
+        pos += vec3(0, 0, dr);
+        last_d = d_since;
         
         if (!working && next_aix != aix) {
             cycles--;
@@ -50,6 +59,7 @@ public:
     ModelInstance(AnimatedModel &am) : amodel(am), ctx(am.ctx) {
         bones = copyBones(am.bones);
         prepareBones();
+        pos = vec3(0, -0.5f, 0);
     }
     void prepareBones() {
 
