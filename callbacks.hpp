@@ -38,6 +38,10 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 
     player.set_moving_dir(vel_tmp);
 }
+void framebuffer_size_callback(GLFWwindow *win, int x, int y) {
+    player.resizeView(x, y);
+    cout << "Resize\n";
+}
 
 void mouse_callback(GLFWwindow *win, double xpos, double ypos) {
     if (cursor_free)

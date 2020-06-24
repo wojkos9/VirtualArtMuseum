@@ -29,8 +29,6 @@ class Renderer {
     
     public:
 
-    
-
     MCamera &camera;
     
     Renderer(MCamera &camera) : camera(camera), shaders(sizeof(ShaderType)) {
@@ -38,8 +36,8 @@ class Renderer {
         add_shader(Character, "shaders/shaded.vsh", "shaders/shaded.fsh");
         add_shader(Static, "shaders/vertexShaderMuseum.vs", "shaders/fragmentShaderMuseum.fs");
         add_shader(Lights, "shaders/lightCubeShader.vs", "shaders/lightCubeShader.fs");
+        
         // GPU buffer for bone matrices
-
         int n_bones = 128;
         
         glGenBuffers(1, &ssbo);
