@@ -91,7 +91,11 @@ int main(int argc, char *argv[]) {
     Renderer r(player);
     Museum museum;
 
-    ModelInstance mi(amodel, 0), mi2(amodel, 2);
+    vector<ModelInstance> npcs;
+    npcs.push_back(ModelInstance(amodel, 0));
+    npcs.push_back(ModelInstance(amodel, 3));
+    npcs.push_back(ModelInstance(amodel, 6));
+    npcs.push_back(ModelInstance(amodel, 8));
 
     // // DEBUG: for visualizing bones
     // GLuint vao_bones;
@@ -136,15 +140,11 @@ int main(int argc, char *argv[]) {
         #define SHOW_LIGHT
         //rend.draw_debug(sp, model, vbo_bones, vao_bones, lp);
 
-        if (cmd_go)
-            mi.goTo(vec2(5, 0));
-        else if (cmd_stop)
-            mi.goTo(vec2(0, 0));
-
 
         player.update(dt);
-        mi.update(dt);
-        mi2.update(dt);
+        for (ModelInstance &mi : npcs) {
+            mi.update(dt);
+        }
 
       
         r.use_shader(Static);
@@ -156,17 +156,12 @@ int main(int argc, char *argv[]) {
         
 
         r.use_shader(Character);
-        r.i();
-        r.tr(vec3(-10.5,0,0));
-        r.tr(mi.pos);
-        r.ro(mi.rot/3.14f*180, Y);
-        mi.draw(r);
 
-        r.i();
-        r.tr(vec3(-10.5,0,0));
-        r.tr(mi2.pos);
-        r.ro(mi2.rot/3.14f*180, Y);
-        mi2.draw(r);
+        for (ModelInstance &mi : npcs) {
+            r.i();
+            r.tr(vec3(-10.5,0,0));
+            mi.draw(r);
+        }
         
 
 

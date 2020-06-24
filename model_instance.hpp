@@ -41,9 +41,9 @@ public:
     queue<Task> tasks;
     bool walking = false;
 
-    vector<vec2> path = {vec2(0, 0), vec2(1,1),vec2(2,-0.7), vec2(3.8,0.9)};//vec2(4.5,-0.7),
-    // vec2(6.5,1),vec2(8.5,-0.7),vec2(11.5,0.8),vec2(11.5,-0.7),
-    // vec2(13.3, 0.7),vec2(13.5, -0.6), vec2(13.5,0.0),vec2(0.0,0.0)};
+    vector<vec2> path = {vec2(0, 0), vec2(1,1),vec2(2,-0.7), vec2(3.8,0.9), vec2(4.5,-0.7),
+    vec2(6.5,1),vec2(8.5,-0.7),vec2(11.5,0.8),vec2(11.5,-0.7),
+    vec2(13.3, 0.7),vec2(13.5, -0.6), vec2(13.5,0.0),vec2(0.0,0.0)};
     
     int ipath = 0;
     bool walking_path = true;
@@ -100,7 +100,6 @@ public:
             rot += rot_speed * (2*clockwise-1) * dt;
             if (rot >= target_rot && clockwise || rot <= target_rot && (!clockwise)) {
                 rot = target_rot;
-                //rotating = false;
                 nextAnimation();
             }
         } else {
@@ -109,7 +108,6 @@ public:
             if (curr_anim != Nothing) {
                 t += dt;
                 working = animate(*bones, ctx, t, &d_since, curr_anim, hips_node);
-                //cout << anim_counter << " : " << d_since << endl;
 
                 if (curr_anim != Idle) {
                     float dr = (d_since>last_d)?(d_since-last_d):d_since;
@@ -141,7 +139,6 @@ public:
                 nextAnimation();
             }
         }
-        
         
 
         // Compute bone matrices
@@ -175,14 +172,17 @@ public:
         ipath = (ipath+1)%path.size();
         goTo(path[ipath]);
     }
-
-    
-    ModelInstance(AnimatedModel &am, int i=0) : amodel(am), ctx(am.ctx) {
+    void startFrom(int i) {
         ipath = i<path.size()?i:0;
-        bones = copyBones(am.bones);
-        prepareBones();
         pos = vec3(path[ipath].x, -0.5f, path[ipath].y);
         nextDestination();
+    }
+    
+    ModelInstance(AnimatedModel &am, int i=0) : amodel(am), ctx(am.ctx) {
+        startFrom(i);
+        bones = copyBones(am.bones);
+        prepareBones();
+        
     }
     void prepareBones() {
 
@@ -191,7 +191,8 @@ public:
         mbs = vector<mat4>(n_bones, mat4());
     }
     void draw(Renderer &r) {
-       
+        r.tr(pos);
+        r.ro(rot/3.14f*180, Y);
         r.passBoneMatrices(mbs);
         r.renderModel(amodel);
     }
