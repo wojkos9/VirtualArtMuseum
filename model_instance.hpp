@@ -41,9 +41,7 @@ public:
     queue<Task> tasks;
     bool walking = false;
 
-    vector<vec2> path = {vec2(0, 0), vec2(1,1),vec2(2,-0.7), vec2(3.8,0.9), vec2(4.5,-0.7),
-    vec2(6.5,1),vec2(8.5,-0.7),vec2(11.5,0.8),vec2(11.5,-0.7),
-    vec2(13.3, 0.7),vec2(13.5, -0.6), vec2(13.5,0.0)};
+    vector<vec2> path ={vec2(1,1),vec2(2,-0.7),vec2(3.8,0.9),vec2(4.5,-0.7),vec2(5.9,0),vec2(6.6,0.2),vec2(8.5,-0.7),vec2(11.0,-0.1),vec2(11.7,-0.7),vec2(13.3, 0.7),vec2(13.9, -0.6), vec2(16.0,-0.2), vec2(16.5,1.0),vec2(18.0,-0.7),vec2(16.5,0.0),vec2(0.0,0.0)};
     
     int ipath = 0;
     bool walking_path = true;
@@ -182,8 +180,8 @@ public:
         ipath = (ipath+1)%path.size();
 
         // correct position when not visible (behind the door)
-        if (ipath == 1)
-            setLocation(path[0]);
+        // if (ipath == 1)
+        //     setLocation(path[0]);
 
         goTo(path[ipath]);
     }
