@@ -7,7 +7,18 @@
 #include <glm/gtx/norm.hpp>
 
 enum AnimType {
-    Start=0, Walk=1, Stop=2, Idle
+    Idle=0, Start, Stop, Walk, Nothing
+};
+enum TaskType {
+    WalkTo, Wait
+};
+
+class Task {
+    public:
+    TaskType tt;
+    vec2 dst;
+    float time;
+    Task(TaskType tt, vec2 dst, float time) : tt(tt), dst(dst), time(time) {}
 };
 
 
@@ -21,13 +32,13 @@ public:
     AnimatedModel &amodel;
     bool do_animation = true;
     bool working = true;
-    AnimType curr_anim = Idle;
+    AnimType curr_anim = Nothing;
     int cycles = 1;
-    int order[3] = {0, 2, 1};
     vec3 pos;
     float d_since = 0.f;
     float last_d = 0.f;
     queue<AnimType> animations;
+    queue<Task> tasks;
     bool walking = false;
     
     float rot = 0.f;
@@ -39,6 +50,8 @@ public:
 
     vec2 dir = vec2(0, 1);
     vec2 target = vec2(0);
+
+    int hips_node = 64;
 
     void stop() {
         if (walking) {
@@ -82,20 +95,22 @@ public:
             }
             
             // Animate bones
-            if (curr_anim != Idle) {
+            if (curr_anim != Nothing) {
                 t += dt;
-                working = animate(*bones, ctx, t, &d_since, order[curr_anim], 64);
+                working = animate(*bones, ctx, t, &d_since, curr_anim, hips_node);
                 //cout << anim_counter << " : " << d_since << endl;
-                float dr = (d_since>last_d)?(d_since-last_d):d_since;
-                
-                dr = dr*0.005;
-                //cout << dr << endl;
-                //cout << dr << pos.z << endl;
-                pos += rotateY(vec3(0, 0, dr), rot);
-                if (distance(vec2(pos.x, pos.z), target) <= pow(0.5f, 2)) {
-                    stop();
-                    reached = true;
+
+                if (curr_anim != Idle) {
+                    float dr = (d_since>last_d)?(d_since-last_d):d_since;
+                    dr = dr*0.005;
+                    pos += rotateY(vec3(0, 0, dr), rot);
+                    if (distance(vec2(pos.x, pos.z), target) <= 0.5f) {
+                        stop();
+                        reached = true;
+                    }
                 }
+                
+                
                 last_d = d_since;
             } else {
                 working = false;

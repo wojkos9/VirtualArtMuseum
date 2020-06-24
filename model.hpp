@@ -107,7 +107,7 @@ class AnimatedModel {
         for (auto &m : ctx.materials) {
             int i =m.values["baseColorTexture"].json_double_value["index"];
             
-            Image tex = ctx.images[i];
+            Image tex = ctx.images[ctx.textures[i].source];
             GLuint tex_id;
 
             GLfloat pixels[] = {1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 1, 0};

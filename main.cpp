@@ -81,7 +81,7 @@ int main(int argc, char *argv[]) {
     Model context;
     
     // TODO: in a different thread
-    const char *model_fname = argc < 2 ? "models/wss.glb" : argv[1];
+    const char *model_fname = argc < 2 ? "models/wssi.glb" : argv[1];
     //M model = loadModel(model_fname, context);
 
     AnimatedModel amodel;
@@ -134,9 +134,9 @@ int main(int argc, char *argv[]) {
         //rend.draw_debug(sp, model, vbo_bones, vao_bones, lp);
 
         if (cmd_go)
-            mi.start();
+            mi.goTo(vec2(5, 0));
         else if (cmd_stop)
-            mi.stop();
+            mi.goTo(vec2(0, 0));
 
 
         player.update(dt);
