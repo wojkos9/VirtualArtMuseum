@@ -90,10 +90,8 @@ int main(int argc, char *argv[]) {
 
     Renderer r(player);
     Museum museum;
-    
-    Human npc(amodel);
 
-    ModelInstance mi(amodel), mi2(amodel);
+    ModelInstance mi(amodel, 0), mi2(amodel, 2);
 
     // // DEBUG: for visualizing bones
     // GLuint vao_bones;
@@ -146,6 +144,7 @@ int main(int argc, char *argv[]) {
 
         player.update(dt);
         mi.update(dt);
+        mi2.update(dt);
 
       
         r.use_shader(Static);
@@ -161,10 +160,14 @@ int main(int argc, char *argv[]) {
         r.tr(vec3(-10.5,0,0));
         r.tr(mi.pos);
         r.ro(mi.rot/3.14f*180, Y);
-        
         mi.draw(r);
+
         r.i();
-        r.tr(vec3(1+dx, 0, 0));
+        r.tr(vec3(-10.5,0,0));
+        r.tr(mi2.pos);
+        r.ro(mi2.rot/3.14f*180, Y);
+        mi2.draw(r);
+        
 
 
         glfwSwapBuffers(win);
@@ -177,21 +180,21 @@ int main(int argc, char *argv[]) {
         sleep( (int)(1000 * (1.f / fps_limit - dt)) );
 
         position += (float)(dt * speed) * vel;
-           if(mi.reachedGoal()){
-        if(!startedToWatch){
-        watchPaintingTimer=glfwGetTime();
-        startedToWatch=true;
-        }
-        if(glfwGetTime()- watchPaintingTimer >= 1.0){
-            startedToWatch=false;
-            mi.goTo(dest[i]);
-            cout<<"ide do "<<i<<endl;
-            i++;
-            if(i>dlugosTrasy)
-                i=0;
-        }
+    //        if(mi.reachedGoal()){
+    //     if(!startedToWatch){
+    //     watchPaintingTimer=glfwGetTime();
+    //     startedToWatch=true;
+    //     }
+    //     if(glfwGetTime()- watchPaintingTimer >= 1.0){
+    //         startedToWatch=false;
+    //         mi.goTo(dest[i]);
+    //         cout<<"ide do "<<i<<endl;
+    //         i++;
+    //         if(i>=dlugosTrasy)
+    //             i=0;
+    //     }
         
-    }
+    // }
         //t += 1.f/fps_limit;
     }
     glfwTerminate();

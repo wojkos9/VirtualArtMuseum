@@ -40,7 +40,15 @@ public:
     queue<AnimType> animations;
     queue<Task> tasks;
     bool walking = false;
+
+    vector<vec2> path = {vec2(0, 0), vec2(1,1),vec2(2,-0.7), vec2(3.8,0.9)};//vec2(4.5,-0.7),
+    // vec2(6.5,1),vec2(8.5,-0.7),vec2(11.5,0.8),vec2(11.5,-0.7),
+    // vec2(13.3, 0.7),vec2(13.5, -0.6), vec2(13.5,0.0),vec2(0.0,0.0)};
     
+    int ipath = 0;
+    bool walking_path = true;
+    int watch_iter = 1;
+
     float rot = 0.f;
     float target_rot = 0.f;
     bool rotating = false;
@@ -111,6 +119,15 @@ public:
                         stop();
                         reached = true;
                     }
+                } else if (reached) {
+                    if (!working) {
+                        cout << "iter" << watch_iter << endl;
+                        watch_iter--;
+                    }
+                        
+                    if (watch_iter == 0) {
+                        nextDestination();
+                    }
                 }
                 
                 
@@ -154,12 +171,18 @@ public:
         start();
         reached = false;
     }
+    void nextDestination() {
+        ipath = (ipath+1)%path.size();
+        goTo(path[ipath]);
+    }
 
     
-    ModelInstance(AnimatedModel &am) : amodel(am), ctx(am.ctx) {
+    ModelInstance(AnimatedModel &am, int i=0) : amodel(am), ctx(am.ctx) {
+        ipath = i<path.size()?i:0;
         bones = copyBones(am.bones);
         prepareBones();
-        pos = vec3(0, -0.5f, 0);
+        pos = vec3(path[ipath].x, -0.5f, path[ipath].y);
+        nextDestination();
     }
     void prepareBones() {
 
