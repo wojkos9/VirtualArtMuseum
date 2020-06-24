@@ -13,12 +13,12 @@ using namespace glm;
 
 #ifdef __linux__
 #include <unistd.h>
-int sleep(int msec) {
+void sleep(int msec) {
     usleep(std::max(1000 * msec, 0));
 }
 #elif _WIN32
 #include <windows.h>
-int sleep(int msec) {
+void sleep(int msec) {
     Sleep(std::max(msec, 0));
 }
 #endif
@@ -171,7 +171,7 @@ unsigned int loadTexture( char const *path){
     }
     else
     {
-        std::cout << "Failed to load texture" << std::endl;
+        std::cout << "Failed to load texture " << path << std::endl;
     }
     stbi_image_free(data);
     return texture;

@@ -1,7 +1,6 @@
 #pragma once
 
 #include "main.hpp"
-#include "movable.hpp"
 
 class MCamera {
     protected:

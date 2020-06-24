@@ -47,6 +47,7 @@ bool animate(map<int, Bone> &bones, Model &context, float t, float *delta, int a
         }
         id1 = std::min(nf, id+1);
 
+        // Interpolation
         float alpha = (t1-in_vals[id])/dt;
 
         switch (channels[i].target_path[0]) {

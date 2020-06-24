@@ -26,7 +26,7 @@ public:
     GLint loc(const char *name) {
         GLint l = glGetUniformLocation(sp, name);
         if (l < 0 && u_missing->find(name) == u_missing->end()) {
-            printf("%s: uniform not found: %s\n", foo, name);
+            //printf("%s: uniform not found: %s\n", foo, name);
             u_missing->emplace(name);
         }
         

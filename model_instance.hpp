@@ -165,7 +165,6 @@ public:
         target = dst;
         dir = normalize(dst-p);
         float new_rot = acos(dot(dir, vec2(0, 1))) * sign(dir.x);
-        cout << "ROT" << new_rot << endl;
         rotateTo(new_rot);
         start();
         reached = false;

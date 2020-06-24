@@ -31,7 +31,6 @@ using namespace glm;
 
 #include "renderer.hpp"
 #include "museum.hpp"
-#include "human.hpp"
 
 #include "model_instance.hpp"
 
@@ -39,7 +38,7 @@ GLFWwindow* create_window(int width, int height) {
     GLFWwindow* win;
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 6);
-    win = glfwCreateWindow(width, height, "My Window", NULL, NULL);
+    win = glfwCreateWindow(width, height, "Virtual art museum", NULL, NULL);
 
     glfwSetKeyCallback(win, key_callback);
     glfwSetCursorPosCallback(win, mouse_callback);
