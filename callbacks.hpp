@@ -5,9 +5,8 @@
 
 void key_callback(GLFWwindow* window, int key, int scancode, int action, int mods)
 {
-    cmd_go = (key == GLFW_KEY_O && action == GLFW_RELEASE);
-    cmd_stop = (key == GLFW_KEY_P && action == GLFW_RELEASE);
-    cmd_print = (key == GLFW_KEY_I && action == GLFW_RELEASE);
+    cmd_go = (key == GLFW_KEY_O && action == GLFW_PRESS);
+    cmd_stop = (key == GLFW_KEY_P && action == GLFW_PRESS);
     struct key_struct {
         int code;
         vec3 action;

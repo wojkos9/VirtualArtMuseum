@@ -94,7 +94,6 @@ int main(int argc, char *argv[]) {
     Human npc(amodel);
 
     ModelInstance mi(amodel), mi2(amodel);
-    mi.goTo(vec2(2, -1));
 
     // // DEBUG: for visualizing bones
     // GLuint vao_bones;
@@ -120,7 +119,13 @@ int main(int argc, char *argv[]) {
 
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
     glEnable(GL_DEPTH_TEST);
+    //vec2 dest[dlugosTrasy] ={vec2(1,1),vec2(2,-0.7),vec2(4,1),vec2(4.5,-1),vec2(6.5,1),vec2(4.5,-1)};
+    static const int dlugosTrasy=12;
 
+    vec2 dest[dlugosTrasy] ={vec2(1,1),vec2(2,-0.7),vec2(3.8,0.9),vec2(4.5,-0.7),vec2(6.5,1),vec2(8.5,-0.7),vec2(11.5,0.8),vec2(11.5,-0.7),vec2(13.3, 0.7),vec2(13.5, -0.6), vec2(13.5,0.0),vec2(0.0,0.0)};
+    int i=0;
+    bool startedToWatch=false;
+    float watchPaintingTimer = glfwGetTime();
     
     double last = glfwGetTime();
     float dt = 1.f/fps_limit;
@@ -133,23 +138,14 @@ int main(int argc, char *argv[]) {
         #define SHOW_LIGHT
         //rend.draw_debug(sp, model, vbo_bones, vao_bones, lp);
 
-        if (cmd_go) {
+        if (cmd_go)
             mi.goTo(vec2(5, 0));
-            cmd_go = false;
-        } else if (cmd_stop) {
+        else if (cmd_stop)
             mi.goTo(vec2(0, 0));
-            cmd_stop = false;
-        }
-        if (cmd_print) {
-            mi.printAnimations();
-            cmd_print = false;
-        }
-            
 
 
         player.update(dt);
         mi.update(dt);
-        //mi2.update(1.3f*dt);
 
       
         r.use_shader(Static);
@@ -162,16 +158,13 @@ int main(int argc, char *argv[]) {
 
         r.use_shader(Character);
         r.i();
+        r.tr(vec3(-10.5,0,0));
         r.tr(mi.pos);
         r.ro(mi.rot/3.14f*180, Y);
         
         mi.draw(r);
         r.i();
         r.tr(vec3(1+dx, 0, 0));
-        mi2.draw(r);
-        dx = (dx+0.3*dt);
-        // if (dx > 7)
-        //     dx = 0;
 
 
         glfwSwapBuffers(win);
@@ -184,6 +177,21 @@ int main(int argc, char *argv[]) {
         sleep( (int)(1000 * (1.f / fps_limit - dt)) );
 
         position += (float)(dt * speed) * vel;
+           if(mi.reachedGoal()){
+        if(!startedToWatch){
+        watchPaintingTimer=glfwGetTime();
+        startedToWatch=true;
+        }
+        if(glfwGetTime()- watchPaintingTimer >= 1.0){
+            startedToWatch=false;
+            mi.goTo(dest[i]);
+            cout<<"ide do "<<i<<endl;
+            i++;
+            if(i>dlugosTrasy)
+                i=0;
+        }
+        
+    }
         //t += 1.f/fps_limit;
     }
     glfwTerminate();

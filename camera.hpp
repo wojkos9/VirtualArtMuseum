@@ -13,6 +13,7 @@ class MCamera {
     friend class Renderer;
     public:
     MCamera(float fov=70.f) {
+        position = vec3(0, 0.2f, 0);
         p = perspective(radians(fov), (float)854/480, 0.1f, 500.f);
         rotate(vec2(0));
         v = lookAt(vec3(0, 0, 0), dir, vec3(0, 1, 0));
@@ -24,7 +25,33 @@ class MCamera {
         m_dirty = true;
     }
     void move(vec3 t) {
-        position += t;
+         bool legalMove=true;
+        if ((position + t).x >9.8 || (position+ t).x <-9.8)  
+            legalMove=false;
+            
+        if ((position + t).y > 0.35 || (position+ t).y <-0.35)
+            legalMove = false;
+            
+        if ((position + t).z > 1.3f || (position+ t).z <-1.3f)
+            legalMove = false;
+
+        if ((position + t).z > 1.3f || (position+ t).z <-1.3f)
+            legalMove = false;
+
+        if(  ((position + t).z > 0.36f || (position+ t).z <-0.36f) &&   ((position + t).x >0.3 && (position+ t).x <0.9))
+            legalMove = false;
+        /////
+   
+
+        
+        if(  ((position + t).z > 0.36f || (position+ t).z <-0.36f) &&   ((position + t).x >5.3 && (position+ t).x <5.9))
+            legalMove = false;
+        
+        if(  ((position + t).z > 0.36f || (position+ t).z <-0.36f) &&   ((position + t).x <-4.2 && (position+ t).x >-4.8))
+            legalMove = false;
+
+        if(legalMove)
+            position +=vec3(t.x, 0, t.z);
         m_dirty = true;
     }
 
