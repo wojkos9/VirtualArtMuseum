@@ -9,6 +9,9 @@
 enum AnimType {
     Idle=0, Start, Stop, Walk, Nothing, Rotate
 };
+
+//map<AnimType, string> name_map = {{Idle, "Idle"}, {Start,}};
+string names[] = {"Idle", "Start", "Stop", "Walk", "Nothing", "Rotate"};
 enum TaskType {
     WalkTo, Wait
 };
@@ -37,7 +40,7 @@ public:
     vec3 pos;
     float d_since = 0.f;
     float last_d = 0.f;
-    queue<AnimType> animations;
+    deque<AnimType> animations;
     queue<Task> tasks;
     bool walking = false;
     
@@ -53,10 +56,17 @@ public:
 
     int hips_node = 64;
 
+    void printAnimations() {
+        cout << "Animations\n";
+        for (auto it = animations.begin(); it != animations.end(); it++) {
+            cout << names[*it] << endl;
+        }
+    }
+
     void stop() {
         if (walking) {
-            animations.push(Stop);
-            animations.push(Idle);
+            animations.push_back(Stop);
+            animations.push_back(Idle);
             cout << "stop" << endl;
             walking = false;
         }
@@ -68,10 +78,13 @@ public:
     }
 
     void rotateTo(float rad) {
-        cout << "ROT: " << rad << endl;
-        target_rot = rad;
-        clockwise = target_rot > rot;
-        animations.push(Rotate);
+        if (animations.back() != Rotate) {
+            cout << "ROT: " << rad << endl;
+            target_rot = rad;
+            clockwise = target_rot > rot;
+            animations.push_back(Rotate);
+        }
+        
     }
     int anim_counter = 0;
 
@@ -81,8 +94,9 @@ public:
             anim_counter++;
             last_d = 0;
             t = 0;
-            animations.pop();
-            cout << "anim " << curr_anim << "/" << animations.size() << endl;
+            animations.pop_front();
+            printAnimations();
+            cout << "anim " << names[curr_anim] << "/" << animations.size() << endl;
         }
     }
 
@@ -137,8 +151,8 @@ public:
 
     void start() {
         if (!walking) {
-            animations.push(Start);
-            animations.push(Walk);
+            animations.push_back(Start);
+            animations.push_back(Walk);
             cout << "start" << endl;
             walking = true;
         }

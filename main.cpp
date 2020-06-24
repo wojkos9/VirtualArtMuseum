@@ -133,10 +133,18 @@ int main(int argc, char *argv[]) {
         #define SHOW_LIGHT
         //rend.draw_debug(sp, model, vbo_bones, vao_bones, lp);
 
-        if (cmd_go)
+        if (cmd_go) {
             mi.goTo(vec2(5, 0));
-        else if (cmd_stop)
+            cmd_go = false;
+        } else if (cmd_stop) {
             mi.goTo(vec2(0, 0));
+            cmd_stop = false;
+        }
+        if (cmd_print) {
+            mi.printAnimations();
+            cmd_print = false;
+        }
+            
 
 
         player.update(dt);
