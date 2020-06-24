@@ -7,7 +7,7 @@
 #include <glm/gtx/norm.hpp>
 
 enum AnimType {
-    Idle=0, Start, Stop, Walk, Nothing
+    Idle=0, Start, Stop, Walk, Nothing, Rotate
 };
 enum TaskType {
     WalkTo, Wait
@@ -70,32 +70,33 @@ public:
     void rotateTo(float rad) {
         cout << "ROT: " << rad << endl;
         target_rot = rad;
-        rotating = true;
         clockwise = target_rot > rot;
-        
+        animations.push(Rotate);
     }
     int anim_counter = 0;
 
+    void nextAnimation() {
+        if (animations.size() > 0) {
+            curr_anim = animations.front();
+            anim_counter++;
+            last_d = 0;
+            t = 0;
+            animations.pop();
+            cout << "anim " << curr_anim << "/" << animations.size() << endl;
+        }
+    }
+
     void update(float dt) {
 
-        if (rotating) {
+        if (curr_anim == Rotate) {
             rot += rot_speed * (2*clockwise-1) * dt;
             if (rot >= target_rot && clockwise || rot <= target_rot && (!clockwise)) {
                 rot = target_rot;
-                rotating = false;
+                //rotating = false;
+                nextAnimation();
             }
         } else {
-            if (!working) {
-                if (animations.size() > 0) {
-                    curr_anim = animations.front();
-                    anim_counter++;
-                    last_d = 0;
-                    t = 0;
-                    animations.pop();
-                    cout << "anim " << curr_anim << "/" << animations.size() << endl;
-                }
-            }
-            
+                      
             // Animate bones
             if (curr_anim != Nothing) {
                 t += dt;
@@ -118,6 +119,9 @@ public:
                 working = false;
                 t = 0;
                 last_d = 0;
+            }
+            if (!working) {
+                nextAnimation();
             }
         }
         
