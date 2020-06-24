@@ -71,6 +71,8 @@ public:
         cout << "ROT: " << rad << endl;
         target_rot = rad;
         rotating = true;
+        clockwise = target_rot > rot;
+        
     }
     int anim_counter = 0;
 
