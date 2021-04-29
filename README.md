@@ -1,8 +1,11 @@
-# Opengl Game
-Compile: \
-make
+# Virtual Art Museum
+## Description
+Game written using OpenGL. You can move around a virtual art museum surrounded by animated characters.
 
-Run: \
-./main [optional path to model]
+## Compilation and running
 
-<img src="img.png" style="width:320px;"/>
+`$ make` \
+`$ ./art-museum [optional path to model]`
+
+## Screenshots
+<img src="screenshots/screen01.png" style="width:640px;"/>
